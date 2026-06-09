@@ -1,0 +1,1614 @@
+<!doctype html>
+<!--
+  Block Forge — Privacy Policy (hostable, standalone, single file).
+
+  HOSTING
+    Upload this one file to any static host and use its public URL in
+    Google Play Console (Privacy policy) and App Store Connect.
+      • URL must be publicly reachable, stable, and NOT behind a login.
+      • Options: GitHub Pages, Netlify Drop, Cloudflare Pages, Vercel, S3+CloudFront.
+      • app-ads.txt (legal/app-ads.txt) MUST sit at the DOMAIN ROOT
+        (https://yourdomain/app-ads.txt) — a project subpath will not validate.
+
+  DESIGN
+    • No external fonts/CDN: loads fast, works offline, and the privacy page
+      itself makes zero third-party network calls.
+    • EN/TR language toggle (one language visible at a time); choice persists.
+    • Numbered table of contents, accessible responsive data table, light/dark,
+      print stylesheet.
+
+  CONTENT (verified against code as of 2026-06-09)
+    • Ads: Google AdMob only. AppLovin MAX is present in code but DISABLED in the
+      iOS export (plugins/AppLovinMAX=false) and not the active backend, so it is
+      intentionally not named here.
+    • iOS App Tracking Transparency: the Info.plist carries an
+      NSUserTrackingUsageDescription, but there is no runtime ATT request in the
+      game code. Wording below is therefore conditional ("if the prompt appears"),
+      not a claim that the Game forces the prompt.
+    • Diagnostics: anonymous, sent to our Supabase backend over HTTPS, no PII.
+    • No account, no real-money purchases, not directed at children under 13.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index,follow" />
+        <title>Privacy Policy — Block Forge</title>
+        <meta
+            name="description"
+            content="How Block Forge by Wesan Studio handles your data: Google AdMob ads, anonymous diagnostics, no account, no real-money purchases. English and Turkish."
+        />
+        <meta name="color-scheme" content="light dark" />
+        <meta
+            name="theme-color"
+            content="#f7f8fb"
+            media="(prefers-color-scheme: light)"
+        />
+        <meta
+            name="theme-color"
+            content="#0b0e17"
+            media="(prefers-color-scheme: dark)"
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Privacy Policy — Block Forge" />
+        <meta
+            property="og:description"
+            content="What data Block Forge processes and why. Ads via Google AdMob, anonymous diagnostics, no account."
+        />
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NiA0NiI+PHJlY3Qgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTIiIGZpbGw9IiMwYTBlMWEiLz48cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iMTIuNSIgaGVpZ2h0PSIxMi41IiByeD0iMyIgZmlsbD0iIzZmYThkYyIvPjxyZWN0IHg9IjI0LjUiIHk9IjkiIHdpZHRoPSIxMi41IiBoZWlnaHQ9IjEyLjUiIHJ4PSIzIiBmaWxsPSIjOTNjNDdkIi8+PHJlY3QgeD0iOSIgeT0iMjQuNSIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjMiIGZpbGw9IiNmNmIyNmIiLz48cmVjdCB4PSIyNC41IiB5PSIyNC41IiB3aWR0aD0iMTIuNSIgaGVpZ2h0PSIxMi41IiByeD0iMyIgZmlsbD0iIzhlN2NjMyIvPjwvc3ZnPg=="
+        />
+        <style>
+            /* ============================== Design tokens ============================== */
+            :root {
+                color-scheme: light dark;
+
+                /* Brand (derived from the in-game Soft Night palette) */
+                --brand-navy: #121826;
+                --brand-navy-2: #0a0e1a;
+                --brand-blue: #6fa8dc;
+
+                /* Light theme — cool true-neutral surface, never warm/cream */
+                --bg: #f5f7fb;
+                --surface: #ffffff;
+                --surface-2: #eef2fa; /* summary card / zebra */
+                --ink: #1a2031;
+                --ink-soft: #41495d;
+                --muted: #5c6479;
+                --line: #e2e6f0;
+                --accent: #2c5fc4; /* AA on --bg and --surface */
+                --accent-ink: #1f4fae;
+                --on-accent: #ffffff;
+                --tint: #eaf1fc; /* faint accent wash */
+                --tint-line: #cfdef5;
+                --shadow:
+                    0 1px 2px rgba(16, 24, 48, 0.04),
+                    0 6px 24px rgba(16, 24, 48, 0.06);
+
+                /* Type */
+                --font-sans:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    Helvetica, Arial, "Apple Color Emoji", sans-serif;
+                --font-mono:
+                    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                    monospace;
+                --measure: 68ch;
+
+                /* z-scale (semantic, never 9999) */
+                --z-sticky: 100;
+                --z-totop: 200;
+            }
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --bg: #0b0e17;
+                    --surface: #111726;
+                    --surface-2: #151c2e;
+                    --ink: #dde2ee;
+                    --ink-soft: #b9c0d2;
+                    --muted: #8b93a8;
+                    --line: #1f2638;
+                    --accent: #8eb4ff;
+                    --accent-ink: #a6c4ff;
+                    --on-accent: #0a0e1a;
+                    --tint: #131c30;
+                    --tint-line: #25324d;
+                    --shadow:
+                        0 1px 2px rgba(0, 0, 0, 0.3),
+                        0 8px 28px rgba(0, 0, 0, 0.35);
+                }
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+            html {
+                -webkit-text-size-adjust: 100%;
+            }
+            @media (prefers-reduced-motion: no-preference) {
+                html {
+                    scroll-behavior: smooth;
+                }
+            }
+
+            body {
+                margin: 0;
+                padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 1.5rem) 5rem;
+                font-family: var(--font-sans);
+                font-size: 17px;
+                line-height: 1.65;
+                color: var(--ink);
+                background: var(--bg);
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+            }
+            main {
+                max-width: 760px;
+                margin: 0 auto;
+            }
+
+            a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+                text-underline-offset: 2px;
+            }
+            a:focus-visible,
+            button:focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 2px;
+                border-radius: 4px;
+            }
+
+            /* Skip link */
+            .skip {
+                position: absolute;
+                left: 50%;
+                top: -3rem;
+                transform: translateX(-50%);
+                background: var(--accent);
+                color: var(--on-accent);
+                padding: 0.5rem 1rem;
+                border-radius: 0 0 10px 10px;
+                font-weight: 600;
+                transition: top 0.15s ease;
+            }
+            .skip:focus {
+                top: 0;
+                text-decoration: none;
+            }
+
+            /* ============================== Header ============================== */
+            header.brand {
+                position: relative;
+                background:
+                    radial-gradient(
+                        120% 140% at 85% -10%,
+                        rgba(111, 168, 220, 0.28),
+                        transparent 55%
+                    ),
+                    linear-gradient(
+                        160deg,
+                        var(--brand-navy),
+                        var(--brand-navy-2)
+                    );
+                color: #fff;
+                border-radius: 18px;
+                padding: clamp(1.25rem, 3vw, 1.9rem);
+                margin-bottom: 1.5rem;
+                box-shadow: var(--shadow);
+                overflow: hidden;
+            }
+            .brand-top {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .brand-id {
+                display: flex;
+                align-items: center;
+                gap: 0.85rem;
+                min-width: 0;
+            }
+            .logo {
+                width: 46px;
+                height: 46px;
+                flex: none;
+                border-radius: 12px;
+                display: block;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            }
+            .brand-id h1 {
+                margin: 0;
+                font-size: clamp(1.35rem, 4vw, 1.7rem);
+                letter-spacing: -0.02em;
+                line-height: 1.1;
+                text-wrap: balance;
+            }
+            .brand-id .kicker {
+                margin: 0.15rem 0 0;
+                font-size: 0.78rem;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--brand-blue);
+            }
+
+            /* Language toggle (segmented control) */
+            .lang {
+                display: inline-flex;
+                gap: 2px;
+                padding: 3px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 999px;
+            }
+            .lang button {
+                appearance: none;
+                border: 0;
+                cursor: pointer;
+                font: inherit;
+                font-size: 0.82rem;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.72);
+                background: transparent;
+                padding: 0.34rem 0.8rem;
+                border-radius: 999px;
+                transition:
+                    background 0.18s ease,
+                    color 0.18s ease;
+            }
+            .lang button[aria-pressed="true"] {
+                background: #fff;
+                color: var(--brand-navy-2);
+            }
+            .lang button:hover:not([aria-pressed="true"]) {
+                color: #fff;
+            }
+
+            .brand-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem 0.9rem;
+                margin-top: 1.1rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 0.82rem;
+                color: rgba(255, 255, 255, 0.72);
+            }
+            .brand-meta code {
+                font-family: var(--font-mono);
+                font-size: 0.82em;
+                color: rgba(255, 255, 255, 0.9);
+            }
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                background: rgba(255, 255, 255, 0.08);
+                border-radius: 999px;
+                padding: 0.2rem 0.65rem;
+            }
+            .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--brand-blue);
+            }
+
+            /* ============================== TOC ============================== */
+            .toc {
+                background: var(--surface);
+                border: 1px solid var(--line);
+                border-radius: 14px;
+                padding: 1.1rem 1.25rem;
+                margin-bottom: 1.75rem;
+                box-shadow: var(--shadow);
+            }
+            .toc h2 {
+                margin: 0 0 0.65rem;
+                font-size: 0.76rem;
+                font-weight: 700;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--muted);
+            }
+            .toc ol {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.15rem;
+                counter-reset: toc;
+            }
+            @media (min-width: 560px) {
+                .toc ol {
+                    grid-template-columns: 1fr 1fr;
+                    column-gap: 1.5rem;
+                }
+            }
+            .toc li {
+                counter-increment: toc;
+            }
+            .toc a {
+                display: flex;
+                gap: 0.6rem;
+                align-items: baseline;
+                padding: 0.3rem 0.25rem;
+                border-radius: 8px;
+                color: var(--ink-soft);
+                font-size: 0.95rem;
+            }
+            .toc a:hover {
+                background: var(--tint);
+                color: var(--accent-ink);
+                text-decoration: none;
+            }
+            .toc a::before {
+                content: counter(toc, decimal-leading-zero);
+                font-variant-numeric: tabular-nums;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--accent);
+                flex: none;
+                min-width: 1.4em;
+            }
+
+            /* ============================== Content ============================== */
+            .lang-pane[hidden] {
+                display: none;
+            }
+            .intro {
+                color: var(--ink-soft);
+                font-size: 1.02rem;
+            }
+            section {
+                scroll-margin-top: 1rem;
+            }
+            h2.sec {
+                margin: 2.4rem 0 0.6rem;
+                font-size: 1.28rem;
+                letter-spacing: -0.015em;
+                line-height: 1.25;
+                text-wrap: balance;
+                display: flex;
+                align-items: baseline;
+                gap: 0.55rem;
+            }
+            h2.sec .num {
+                font-size: 0.92rem;
+                font-weight: 700;
+                color: var(--accent);
+                font-variant-numeric: tabular-nums;
+                flex: none;
+            }
+            h3 {
+                margin: 1.4rem 0 0.4rem;
+                font-size: 1.02rem;
+                letter-spacing: -0.01em;
+            }
+            p {
+                max-width: var(--measure);
+                text-wrap: pretty;
+            }
+            p,
+            li {
+                color: var(--ink-soft);
+            }
+            strong {
+                color: var(--ink);
+                font-weight: 650;
+            }
+            ul {
+                padding-left: 1.2rem;
+                max-width: var(--measure);
+            }
+            li {
+                margin: 0.35rem 0;
+            }
+            li::marker {
+                color: var(--accent);
+            }
+            .meta {
+                font-size: 0.85rem;
+                color: var(--muted);
+                margin: 0.25rem 0 0;
+            }
+
+            /* Summary card */
+            .summary {
+                background: var(--tint);
+                border: 1px solid var(--tint-line);
+                border-radius: 14px;
+                padding: 1.2rem 1.35rem;
+                margin: 0.5rem 0 0.5rem;
+            }
+            .summary ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                max-width: none;
+            }
+            .summary li {
+                display: flex;
+                gap: 0.7rem;
+                align-items: flex-start;
+                padding: 0.5rem 0;
+                border-top: 1px solid var(--tint-line);
+                color: var(--ink-soft);
+            }
+            .summary li:first-child {
+                border-top: 0;
+                padding-top: 0;
+            }
+            .summary li:last-child {
+                padding-bottom: 0;
+            }
+            .summary li svg {
+                flex: none;
+                width: 20px;
+                height: 20px;
+                margin-top: 0.15rem;
+                color: var(--accent);
+            }
+
+            /* Data table */
+            .table-wrap {
+                margin: 0.9rem 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.95rem;
+            }
+            caption {
+                text-align: left;
+                color: var(--muted);
+                font-size: 0.82rem;
+                padding-bottom: 0.5rem;
+            }
+            thead th {
+                text-align: left;
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 0.07em;
+                text-transform: uppercase;
+                color: var(--muted);
+                padding: 0 0.7rem 0.55rem;
+                border-bottom: 1px solid var(--line);
+            }
+            tbody td {
+                padding: 0.7rem;
+                border-bottom: 1px solid var(--line);
+                vertical-align: top;
+                color: var(--ink-soft);
+            }
+            tbody tr:nth-child(even) td {
+                background: var(--surface-2);
+            }
+            tbody td:first-child {
+                color: var(--ink);
+                font-weight: 600;
+            }
+
+            @media (max-width: 600px) {
+                table,
+                thead,
+                tbody,
+                tr,
+                td {
+                    display: block;
+                    width: 100%;
+                }
+                thead {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    overflow: hidden;
+                    clip: rect(0 0 0 0);
+                }
+                tbody tr {
+                    border: 1px solid var(--line);
+                    border-radius: 12px;
+                    margin-bottom: 0.75rem;
+                    padding: 0.35rem 0.25rem;
+                    background: var(--surface);
+                }
+                tbody tr:nth-child(even) td {
+                    background: transparent;
+                }
+                tbody td {
+                    border: 0;
+                    padding: 0.45rem 0.9rem;
+                }
+                tbody td::before {
+                    content: attr(data-label);
+                    display: block;
+                    font-size: 0.68rem;
+                    font-weight: 700;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                    color: var(--muted);
+                    margin-bottom: 0.15rem;
+                }
+                tbody td:first-child {
+                    font-size: 1rem;
+                    padding-top: 0.7rem;
+                }
+            }
+
+            hr {
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 2.75rem 0;
+            }
+
+            /* Back to top */
+            .totop {
+                position: fixed;
+                right: clamp(0.9rem, 4vw, 1.5rem);
+                bottom: clamp(0.9rem, 4vw, 1.5rem);
+                z-index: var(--z-totop);
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                cursor: pointer;
+                background: var(--accent);
+                color: var(--on-accent);
+                border: 0;
+                box-shadow: var(--shadow);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(8px);
+                transition:
+                    opacity 0.2s ease,
+                    transform 0.2s ease,
+                    visibility 0.2s;
+            }
+            .totop.show {
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .totop {
+                    transition:
+                        opacity 0.2s ease,
+                        visibility 0.2s;
+                    transform: none;
+                }
+            }
+
+            footer {
+                max-width: 760px;
+                margin: 3rem auto 0;
+                padding-top: 1.5rem;
+                border-top: 1px solid var(--line);
+                font-size: 0.85rem;
+                color: var(--muted);
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem 0.9rem;
+                justify-content: space-between;
+            }
+
+            /* ============================== Print ============================== */
+            @media print {
+                body {
+                    background: #fff;
+                    color: #000;
+                    font-size: 11pt;
+                    padding: 0;
+                }
+                header.brand {
+                    background: none;
+                    color: #000;
+                    box-shadow: none;
+                    border: 1px solid #ccc;
+                }
+                .brand-id .kicker,
+                .brand-meta {
+                    color: #333;
+                }
+                .lang,
+                .toc,
+                .totop,
+                .skip {
+                    display: none !important;
+                }
+                .summary,
+                .toc,
+                table {
+                    box-shadow: none;
+                }
+                a {
+                    color: #000;
+                    text-decoration: underline;
+                }
+                a[href^="http"]::after {
+                    content: " (" attr(href) ")";
+                    font-size: 0.8em;
+                    color: #555;
+                }
+                section,
+                h2.sec,
+                .summary {
+                    page-break-inside: avoid;
+                }
+                .lang-pane[hidden] {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <a class="skip" href="#content">Skip to content</a>
+
+        <header class="brand">
+            <div class="brand-top">
+                <div class="brand-id">
+                    <!-- Block Forge mark: stacked blocks in the in-game palette -->
+                    <svg
+                        class="logo"
+                        viewBox="0 0 46 46"
+                        role="img"
+                        aria-label="Block Forge"
+                    >
+                        <rect width="46" height="46" rx="12" fill="#0a0e1a" />
+                        <rect
+                            x="9"
+                            y="9"
+                            width="12.5"
+                            height="12.5"
+                            rx="3"
+                            fill="#6fa8dc"
+                        />
+                        <rect
+                            x="24.5"
+                            y="9"
+                            width="12.5"
+                            height="12.5"
+                            rx="3"
+                            fill="#93c47d"
+                        />
+                        <rect
+                            x="9"
+                            y="24.5"
+                            width="12.5"
+                            height="12.5"
+                            rx="3"
+                            fill="#f6b26b"
+                        />
+                        <rect
+                            x="24.5"
+                            y="24.5"
+                            width="12.5"
+                            height="12.5"
+                            rx="3"
+                            fill="#8e7cc3"
+                        />
+                    </svg>
+                    <div>
+                        <p class="kicker" data-i18n="kicker">Privacy Policy</p>
+                        <h1>Block Forge</h1>
+                    </div>
+                </div>
+                <div class="lang" role="group" aria-label="Language / Dil">
+                    <button
+                        type="button"
+                        data-set-lang="en"
+                        aria-pressed="true"
+                        lang="en"
+                    >
+                        English
+                    </button>
+                    <button
+                        type="button"
+                        data-set-lang="tr"
+                        aria-pressed="false"
+                        lang="tr"
+                    >
+                        Türkçe
+                    </button>
+                </div>
+            </div>
+            <div class="brand-meta">
+                <span class="pill"
+                    ><span class="dot" aria-hidden="true"></span> Wesan
+                    Studio</span
+                >
+                <span class="pill"><code>com.blockforge.game</code></span>
+                <span class="pill" data-i18n="updated"
+                    >Last updated: 9 June 2026</span
+                >
+            </div>
+        </header>
+
+        <main id="content">
+            <!-- ============================== ENGLISH ============================== -->
+            <div class="lang-pane" data-lang="en" lang="en">
+                <p class="intro">
+                    Block Forge (the “Game”) is a single-player block puzzle
+                    game published by Wesan Studio (“we”, “us”, “our”). This
+                    policy explains what data the Game processes and why. By
+                    installing or using the Game, you agree to this policy.
+                </p>
+
+                <nav class="toc" aria-label="On this page">
+                    <h2>On this page</h2>
+                    <ol>
+                        <li><a href="#en-summary">The short version</a></li>
+                        <li><a href="#en-data">Data we process</a></li>
+                        <li>
+                            <a href="#en-ads">Advertising (Google AdMob)</a>
+                        </li>
+                        <li><a href="#en-legal">Legal bases (EEA / UK)</a></li>
+                        <li>
+                            <a href="#en-retention"
+                                >Retention &amp; international transfers</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#en-rights"
+                                >Your rights &amp; data deletion</a
+                            >
+                        </li>
+                        <li><a href="#en-children">Children</a></li>
+                        <li>
+                            <a href="#en-changes">Changes to this policy</a>
+                        </li>
+                        <li><a href="#en-contact">Contact</a></li>
+                    </ol>
+                </nav>
+
+                <section id="en-summary">
+                    <h2 class="sec">
+                        <span class="num">1</span> The short version
+                    </h2>
+                    <div class="summary">
+                        <ul>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >We
+                                    <strong>do not require an account</strong>
+                                    and never ask for your name, email address,
+                                    phone number, or location.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >The Game shows ads through
+                                    <strong>Google AdMob</strong>. To do this,
+                                    Google may use your device’s advertising
+                                    identifier and ad-interaction data.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >We collect
+                                    <strong
+                                        >anonymous diagnostic and usage
+                                        data</strong
+                                    >
+                                    (e.g. crashes, performance, session length,
+                                    score events) to improve the Game. It is not
+                                    tied to your identity.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >There are
+                                    <strong>no real-money purchases</strong>.
+                                    In-game coins are earned through play and
+                                    have no cash value.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >The Game is
+                                    <strong
+                                        >not directed at children under
+                                        13</strong
+                                    >.</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="en-data">
+                    <h2 class="sec">
+                        <span class="num">2</span> Data we process
+                    </h2>
+                    <div class="table-wrap">
+                        <table>
+                            <caption>
+                                What the Game and its providers process, and for
+                                what purpose.
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Purpose</th>
+                                    <th scope="col">Who handles it</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="Data">
+                                        Advertising identifier &amp;
+                                        ad-interaction data
+                                    </td>
+                                    <td data-label="Purpose">
+                                        Show and measure ads (banner,
+                                        interstitial, rewarded)
+                                    </td>
+                                    <td data-label="Who handles it">
+                                        Google AdMob
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Data">
+                                        Coarse device and usage signals used by
+                                        the ad SDK
+                                    </td>
+                                    <td data-label="Purpose">
+                                        Ad delivery and fraud prevention
+                                    </td>
+                                    <td data-label="Who handles it">
+                                        Google AdMob
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Data">
+                                        Anonymous diagnostics: performance,
+                                        crash/error events, session length,
+                                        score and ad events
+                                    </td>
+                                    <td data-label="Purpose">
+                                        Find bugs and improve the Game
+                                    </td>
+                                    <td data-label="Who handles it">
+                                        Us (analytics backend on Supabase)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Data">
+                                        In-game display name (optional),
+                                        progress and settings
+                                    </td>
+                                    <td data-label="Purpose">
+                                        Run the Game and show local leaderboards
+                                    </td>
+                                    <td data-label="Who handles it">
+                                        Stays on your device — not uploaded
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        Our diagnostic data does <strong>not</strong> include
+                        your name, email, precise location, contacts, or photos,
+                        and it is not linked to a personal profile.
+                    </p>
+                </section>
+
+                <section id="en-ads">
+                    <h2 class="sec">
+                        <span class="num">3</span> Advertising (Google AdMob)
+                    </h2>
+                    <p>
+                        The Game uses Google AdMob to display ads. Google acts
+                        as an independent controller of the data it collects for
+                        advertising. Learn more in
+                        <a
+                            href="https://policies.google.com/technologies/ads"
+                            rel="noopener noreferrer"
+                            >Google’s advertising policy</a
+                        >
+                        and the
+                        <a
+                            href="https://policies.google.com/privacy"
+                            rel="noopener noreferrer"
+                            >Google Privacy Policy</a
+                        >.
+                    </p>
+                    <p>You can control ad personalization at any time:</p>
+                    <ul>
+                        <li>
+                            <strong>Android:</strong> Settings → Google → Ads →
+                            “Opt out of Ads Personalization”, or reset/delete
+                            your advertising ID.
+                        </li>
+                        <li>
+                            <strong>iOS:</strong> Settings → Privacy &amp;
+                            Security → Tracking, to allow or deny tracking. If
+                            Apple’s App Tracking Transparency prompt appears and
+                            you decline it, the ads you see are
+                            non-personalized.
+                        </li>
+                        <li>
+                            Where required by law (e.g. the EEA/UK), you may be
+                            asked for consent before personalized ads are shown.
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="en-legal">
+                    <h2 class="sec">
+                        <span class="num">4</span> Legal bases (EEA / UK)
+                    </h2>
+                    <p>
+                        If you are in the EEA or the UK, we rely on these legal
+                        bases under the GDPR:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Consent or legitimate interest</strong> —
+                            for advertising, depending on your region and
+                            choices.
+                        </li>
+                        <li>
+                            <strong>Legitimate interest</strong> — for anonymous
+                            diagnostics that keep the Game stable and improving.
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="en-retention">
+                    <h2 class="sec">
+                        <span class="num">5</span> Retention &amp; international
+                        transfers
+                    </h2>
+                    <p>
+                        Anonymous diagnostic events are kept only as long as
+                        needed to analyse and improve the Game, then aggregated
+                        or deleted. Data held by Google AdMob is governed by
+                        Google’s own retention policies. Your on-device data is
+                        removed when you uninstall the Game.
+                    </p>
+                    <p>
+                        Our service providers (Google and Supabase) may process
+                        data on servers located outside your country, including
+                        outside the EEA/UK, under the safeguards those providers
+                        apply.
+                    </p>
+                </section>
+
+                <section id="en-rights">
+                    <h2 class="sec">
+                        <span class="num">6</span> Your rights &amp; data
+                        deletion
+                    </h2>
+                    <p>
+                        Because we do not collect personal identifiers, most
+                        data cannot be tied back to you individually. You can
+                        still contact us to ask questions or request deletion of
+                        any diagnostic data associated with your device, and you
+                        can clear all local data simply by uninstalling the
+                        Game. Depending on your region, you may have rights to
+                        access, correct, delete, or object to the processing of
+                        personal data.
+                    </p>
+                    <p>
+                        Requests:
+                        <a href="mailto:canakyuz23@gmail.com"
+                            >canakyuz23@gmail.com</a
+                        >
+                    </p>
+                </section>
+
+                <section id="en-children">
+                    <h2 class="sec"><span class="num">7</span> Children</h2>
+                    <p>
+                        The Game is not directed at children under 13 and we do
+                        not knowingly collect personal data from them. If you
+                        believe a child has provided personal data, contact us
+                        and we will delete it.
+                    </p>
+                </section>
+
+                <section id="en-changes">
+                    <h2 class="sec">
+                        <span class="num">8</span> Changes to this policy
+                    </h2>
+                    <p>
+                        We may update this policy. Material changes will be
+                        reflected here with a new “Last updated” date at the top
+                        of the page.
+                    </p>
+                </section>
+
+                <section id="en-contact">
+                    <h2 class="sec"><span class="num">9</span> Contact</h2>
+                    <p>
+                        Wesan Studio —
+                        <a href="mailto:canakyuz23@gmail.com"
+                            >canakyuz23@gmail.com</a
+                        >
+                    </p>
+                </section>
+            </div>
+
+            <!-- ============================== TÜRKÇE ============================== -->
+            <div class="lang-pane" data-lang="tr" lang="tr" hidden>
+                <p class="intro">
+                    Block Forge (“Oyun”), Wesan Studio (“biz”) tarafından
+                    yayınlanan tek oyunculu bir blok bulmaca oyunudur. Bu
+                    politika, Oyun’un hangi verileri işlediğini ve nedenini
+                    açıklar. Oyun’u kurarak veya kullanarak bu politikayı kabul
+                    edersiniz.
+                </p>
+
+                <nav class="toc" aria-label="Bu sayfada">
+                    <h2>Bu sayfada</h2>
+                    <ol>
+                        <li><a href="#tr-ozet">Kısa özet</a></li>
+                        <li><a href="#tr-veri">İşlediğimiz veriler</a></li>
+                        <li>
+                            <a href="#tr-reklam">Reklamlar (Google AdMob)</a>
+                        </li>
+                        <li>
+                            <a href="#tr-yasal">Yasal dayanaklar ve KVKK</a>
+                        </li>
+                        <li>
+                            <a href="#tr-saklama"
+                                >Saklama ve uluslararası aktarım</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#tr-haklar">Haklarınız ve veri silme</a>
+                        </li>
+                        <li><a href="#tr-cocuk">Çocuklar</a></li>
+                        <li>
+                            <a href="#tr-degisiklik"
+                                >Politikadaki değişiklikler</a
+                            >
+                        </li>
+                        <li><a href="#tr-iletisim">İletişim</a></li>
+                    </ol>
+                </nav>
+
+                <section id="tr-ozet">
+                    <h2 class="sec"><span class="num">1</span> Kısa özet</h2>
+                    <div class="summary">
+                        <ul>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    ><strong>Hesap gerektirmeyiz</strong>;
+                                    adınızı, e-postanızı, telefonunuzu veya
+                                    konumunuzu istemeyiz.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >Oyun, <strong>Google AdMob</strong> ile
+                                    reklam gösterir. Bunun için Google,
+                                    cihazınızın reklam kimliğini ve reklam
+                                    etkileşim verilerini kullanabilir.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >Oyunu iyileştirmek için
+                                    <strong
+                                        >anonim teşhis ve kullanım
+                                        verileri</strong
+                                    >
+                                    (çökme, performans, oturum süresi, skor
+                                    olayları) toplarız. Bunlar kimliğinizle
+                                    ilişkilendirilmez.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    ><strong
+                                        >Gerçek para ile satın alma
+                                        yoktur.</strong
+                                    >
+                                    Oyun içi paralar oynayarak kazanılır ve
+                                    nakit değeri yoktur.</span
+                                >
+                            </li>
+                            <li>
+                                <svg
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 10.5l3.5 3.5L15 6.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    /></svg
+                                ><span
+                                    >Oyun
+                                    <strong
+                                        >13 yaş altı çocuklara yönelik
+                                        değildir</strong
+                                    >.</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="tr-veri">
+                    <h2 class="sec">
+                        <span class="num">2</span> İşlediğimiz veriler
+                    </h2>
+                    <div class="table-wrap">
+                        <table>
+                            <caption>
+                                Oyun’un ve sağlayıcılarının işlediği veriler ve
+                                amaçları.
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Veri</th>
+                                    <th scope="col">Amaç</th>
+                                    <th scope="col">Kim işliyor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="Veri">
+                                        Reklam kimliği ve reklam etkileşim
+                                        verisi
+                                    </td>
+                                    <td data-label="Amaç">
+                                        Reklam göstermek ve ölçmek (banner,
+                                        geçiş, ödüllü)
+                                    </td>
+                                    <td data-label="Kim işliyor">
+                                        Google AdMob
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Veri">
+                                        Reklam SDK’sının kullandığı kaba
+                                        cihaz/kullanım sinyalleri
+                                    </td>
+                                    <td data-label="Amaç">
+                                        Reklam sunumu ve sahtekârlık önleme
+                                    </td>
+                                    <td data-label="Kim işliyor">
+                                        Google AdMob
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Veri">
+                                        Anonim teşhis: performans, çökme/hata,
+                                        oturum süresi, skor ve reklam olayları
+                                    </td>
+                                    <td data-label="Amaç">
+                                        Hataları bulmak ve Oyun’u iyileştirmek
+                                    </td>
+                                    <td data-label="Kim işliyor">
+                                        Biz (analitik altyapı Supabase’de)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Veri">
+                                        Oyun içi takma ad (opsiyonel), ilerleme
+                                        ve ayarlar
+                                    </td>
+                                    <td data-label="Amaç">
+                                        Oyun’u çalıştırmak ve yerel skor
+                                        tablosunu göstermek
+                                    </td>
+                                    <td data-label="Kim işliyor">
+                                        Cihazınızda kalır — yüklenmez
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        Teşhis verilerimiz adınızı, e-postanızı, kesin
+                        konumunuzu, kişilerinizi veya fotoğraflarınızı
+                        <strong>içermez</strong> ve kişisel bir profille
+                        ilişkilendirilmez.
+                    </p>
+                </section>
+
+                <section id="tr-reklam">
+                    <h2 class="sec">
+                        <span class="num">3</span> Reklamlar (Google AdMob)
+                    </h2>
+                    <p>
+                        Oyun, reklam göstermek için Google AdMob kullanır.
+                        Google, reklamcılık için topladığı veriler üzerinde
+                        bağımsız veri sorumlusudur. Ayrıntı:
+                        <a
+                            href="https://policies.google.com/technologies/ads"
+                            rel="noopener noreferrer"
+                            >Google reklam politikası</a
+                        >
+                        ve
+                        <a
+                            href="https://policies.google.com/privacy"
+                            rel="noopener noreferrer"
+                            >Google Gizlilik Politikası</a
+                        >.
+                    </p>
+                    <p>
+                        Reklam kişiselleştirmesini istediğiniz zaman kontrol
+                        edebilirsiniz:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Android:</strong> Ayarlar → Google →
+                            Reklamlar → “Reklam Kişiselleştirmeyi kapat” veya
+                            reklam kimliğini sıfırlama.
+                        </li>
+                        <li>
+                            <strong>iOS:</strong> Ayarlar → Gizlilik ve Güvenlik
+                            → İzleme bölümünden izlemeye izin verebilir veya
+                            reddedebilirsiniz. Apple’ın İzleme Şeffaflığı (ATT)
+                            istemi görünür ve reddederseniz gördüğünüz reklamlar
+                            kişiselleştirilmez.
+                        </li>
+                        <li>
+                            Yasaların gerektirdiği yerlerde (örn. AEA/Birleşik
+                            Krallık) kişiselleştirilmiş reklam öncesi onayınız
+                            istenebilir.
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="tr-yasal">
+                    <h2 class="sec">
+                        <span class="num">4</span> Yasal dayanaklar ve KVKK
+                    </h2>
+                    <p>
+                        AEA veya Birleşik Krallık’taysanız, GDPR kapsamında şu
+                        yasal dayanaklara dayanırız:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Onay veya meşru menfaat</strong> —
+                            reklamcılık için; bölgenize ve tercihlerinize bağlı.
+                        </li>
+                        <li>
+                            <strong>Meşru menfaat</strong> — Oyun’u kararlı
+                            tutan ve geliştiren anonim teşhis için.
+                        </li>
+                    </ul>
+                    <p>
+                        Türkiye’de ikamet ediyorsanız, 6698 sayılı Kişisel
+                        Verilerin Korunması Kanunu (KVKK) kapsamında kişisel
+                        verilerinize erişme, düzeltme, silme ve işlemeye itiraz
+                        etme haklarına sahip olabilirsiniz.
+                    </p>
+                </section>
+
+                <section id="tr-saklama">
+                    <h2 class="sec">
+                        <span class="num">5</span> Saklama ve uluslararası
+                        aktarım
+                    </h2>
+                    <p>
+                        Anonim teşhis olayları yalnızca Oyun’u analiz edip
+                        iyileştirmek için gereken süre boyunca saklanır, sonra
+                        toplulaştırılır veya silinir. Google AdMob’un tuttuğu
+                        veriler Google’ın kendi saklama politikalarına tabidir.
+                        Cihazınızdaki veriler, Oyun’u kaldırdığınızda silinir.
+                    </p>
+                    <p>
+                        Hizmet sağlayıcılarımız (Google ve Supabase), verileri
+                        ülkenizin dışındaki sunucularda (AEA/Birleşik Krallık
+                        dışı dahil) bu sağlayıcıların uyguladığı güvenceler
+                        çerçevesinde işleyebilir.
+                    </p>
+                </section>
+
+                <section id="tr-haklar">
+                    <h2 class="sec">
+                        <span class="num">6</span> Haklarınız ve veri silme
+                    </h2>
+                    <p>
+                        Kişisel tanımlayıcı toplamadığımız için verilerin çoğu
+                        sizinle birebir ilişkilendirilemez. Yine de sorularınız
+                        veya cihazınıza ait teşhis verilerinin silinmesi için
+                        bizimle iletişime geçebilir, Oyun’u kaldırarak tüm yerel
+                        verileri temizleyebilirsiniz. Bölgenize bağlı olarak
+                        kişisel verilere erişme, düzeltme, silme ve işlemeye
+                        itiraz etme haklarınız olabilir.
+                    </p>
+                    <p>
+                        Talepler:
+                        <a href="mailto:canakyuz23@gmail.com"
+                            >canakyuz23@gmail.com</a
+                        >
+                    </p>
+                </section>
+
+                <section id="tr-cocuk">
+                    <h2 class="sec"><span class="num">7</span> Çocuklar</h2>
+                    <p>
+                        Oyun 13 yaş altı çocuklara yönelik değildir ve onlardan
+                        bilerek kişisel veri toplamayız. Bir çocuğun kişisel
+                        veri sağladığını düşünüyorsanız bizimle iletişime geçin,
+                        sileriz.
+                    </p>
+                </section>
+
+                <section id="tr-degisiklik">
+                    <h2 class="sec">
+                        <span class="num">8</span> Politikadaki değişiklikler
+                    </h2>
+                    <p>
+                        Bu politikayı güncelleyebiliriz. Önemli değişiklikler,
+                        sayfanın üstündeki yeni “Son güncelleme” tarihiyle
+                        burada yansıtılır.
+                    </p>
+                </section>
+
+                <section id="tr-iletisim">
+                    <h2 class="sec"><span class="num">9</span> İletişim</h2>
+                    <p>
+                        Wesan Studio —
+                        <a href="mailto:canakyuz23@gmail.com"
+                            >canakyuz23@gmail.com</a
+                        >
+                    </p>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <span>© 2026 Wesan Studio · Block Forge</span>
+            <span
+                ><a href="mailto:canakyuz23@gmail.com"
+                    >canakyuz23@gmail.com</a
+                ></span
+            >
+        </footer>
+
+        <button
+            class="totop"
+            type="button"
+            aria-label="Back to top"
+            title="Back to top"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                aria-hidden="true"
+            >
+                <path
+                    d="M12 19V6M6 11l6-6 6 6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </button>
+
+        <script>
+            (function () {
+                "use strict";
+
+                // ---- i18n strings for chrome (header kicker, updated, back-to-top) ----
+                var STR = {
+                    en: {
+                        kicker: "Privacy Policy",
+                        updated: "Last updated: 9 June 2026",
+                        title: "Privacy Policy — Block Forge",
+                        totop: "Back to top",
+                    },
+                    tr: {
+                        kicker: "Gizlilik Politikası",
+                        updated: "Son güncelleme: 9 Haziran 2026",
+                        title: "Gizlilik Politikası — Block Forge",
+                        totop: "Başa dön",
+                    },
+                };
+
+                var KEY = "bf_privacy_lang";
+                var panes = document.querySelectorAll(".lang-pane");
+                var btns = document.querySelectorAll("[data-set-lang]");
+                var totop = document.querySelector(".totop");
+
+                function setLang(lang, persist) {
+                    if (lang !== "en" && lang !== "tr") lang = "en";
+                    document.documentElement.lang = lang;
+                    panes.forEach(function (p) {
+                        p.hidden = p.getAttribute("data-lang") !== lang;
+                    });
+                    btns.forEach(function (b) {
+                        b.setAttribute(
+                            "aria-pressed",
+                            String(b.getAttribute("data-set-lang") === lang),
+                        );
+                    });
+
+                    var s = STR[lang];
+                    document
+                        .querySelectorAll("[data-i18n]")
+                        .forEach(function (el) {
+                            var k = el.getAttribute("data-i18n");
+                            if (s[k]) el.textContent = s[k];
+                        });
+                    document.title = s.title;
+                    if (totop) {
+                        totop.setAttribute("aria-label", s.totop);
+                        totop.setAttribute("title", s.totop);
+                    }
+
+                    if (persist) {
+                        try {
+                            localStorage.setItem(KEY, lang);
+                        } catch (e) {}
+                    }
+                }
+
+                // Initial language: ?lang= → saved → browser → default
+                var initial = "en";
+                try {
+                    var q = new URLSearchParams(location.search).get("lang");
+                    var saved = localStorage.getItem(KEY);
+                    if (q === "en" || q === "tr") initial = q;
+                    else if (saved === "en" || saved === "tr") initial = saved;
+                    else if (
+                        (navigator.language || "")
+                            .toLowerCase()
+                            .indexOf("tr") === 0
+                    )
+                        initial = "tr";
+                } catch (e) {}
+                setLang(initial, false);
+
+                btns.forEach(function (b) {
+                    b.addEventListener("click", function () {
+                        setLang(b.getAttribute("data-set-lang"), true);
+                    });
+                });
+
+                // Back-to-top visibility + action
+                if (totop) {
+                    var onScroll = function () {
+                        if (window.scrollY > 600) totop.classList.add("show");
+                        else totop.classList.remove("show");
+                    };
+                    window.addEventListener("scroll", onScroll, {
+                        passive: true,
+                    });
+                    onScroll();
+                    totop.addEventListener("click", function () {
+                        var reduce = window.matchMedia(
+                            "(prefers-reduced-motion: reduce)",
+                        ).matches;
+                        window.scrollTo({
+                            top: 0,
+                            behavior: reduce ? "auto" : "smooth",
+                        });
+                    });
+                }
+            })();
+        </script>
+    </body>
+</html>
